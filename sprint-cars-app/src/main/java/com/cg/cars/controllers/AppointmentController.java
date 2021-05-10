@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.cg.cars.services.AppointmentService;
 
 @RestController
 @RequestMapping("/Appointment")
+@CrossOrigin(origins = "*")
 public class AppointmentController {
 
 	@Autowired
@@ -29,12 +31,12 @@ public class AppointmentController {
 	
 	@PostMapping("/add/{Id}/{location}/{inspectionType}/{preferredDate}/{preferredTime}/{custId}/{payId}")
 	public ResponseEntity<Appointment> addAppointment(@PathVariable ("Id") long id, @PathVariable ("location") String location,
-			@PathVariable ("inspectionType") String inspectionType, @RequestParam ("preferredDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate preferredDate,
-			@RequestParam ("LocalTime") @DateTimeFormat(pattern="HH:mm:ss") LocalTime preferredTime, @PathVariable ("custId") long custId, @PathVariable ("payId") long payId)
-	{
-		
-		return new ResponseEntity<>(appointService.addAppointment(id, location, inspectionType, preferredDate, preferredTime, custId, payId), HttpStatus.OK);
-	}
+            @PathVariable ("inspectionType") String inspectionType, @RequestParam ("preferredDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate preferredDate,
+            @RequestParam ("preferredTime") @DateTimeFormat(pattern="HH:mm") LocalTime preferredTime, @PathVariable ("custId") long custId, @PathVariable ("payId") long payId)
+    {
+
+        return new ResponseEntity<>(appointService.addAppointment(id, location, inspectionType, preferredDate, preferredTime, custId, payId), HttpStatus.OK);
+    }
 	
 	@GetMapping("/GetAppointment/{id}")
 	public ResponseEntity<Appointment> getAppointment(@PathVariable("id") long id)
@@ -59,12 +61,12 @@ public class AppointmentController {
 	
 	@PutMapping("/update/{Id}/{location}/{inspectionType}/{preferredDate}/{preferredTime}/{custId}/{payId}")
 	public ResponseEntity<Appointment> update(@PathVariable ("Id") long id, @PathVariable ("location") String location,
-			@PathVariable ("inspectionType") String inspectionType, @RequestParam ("preferredDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate preferredDate,
-			@RequestParam ("LocalTime") @DateTimeFormat(pattern="HH:mm:ss") LocalTime preferredTime, @PathVariable ("custId") long custId, @PathVariable ("payId") long payId)	//NOSONAR
-	{
-		
-		return new ResponseEntity<>(appointService.updateAppointment(id, location, inspectionType, preferredDate, preferredTime, custId, payId), HttpStatus.OK);
-	}
+            @PathVariable ("inspectionType") String inspectionType, @RequestParam ("preferredDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate preferredDate,
+            @RequestParam ("preferredTime") @DateTimeFormat(pattern="HH:mm") LocalTime preferredTime, @PathVariable ("custId") long custId, @PathVariable ("payId") long payId)    //NOSONAR
+    {
+
+        return new ResponseEntity<>(appointService.updateAppointment(id, location, inspectionType, preferredDate, preferredTime, custId, payId), HttpStatus.OK);
+    }
 	
 	@GetMapping("/GetOpenAppointments")
 	public List<Appointment> getOpenAppointments()

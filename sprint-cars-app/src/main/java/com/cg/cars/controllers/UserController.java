@@ -1,6 +1,9 @@
 package com.cg.cars.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +17,7 @@ import com.cg.cars.services.UserService;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
 	@Autowired
@@ -27,11 +31,11 @@ public class UserController {
 	}
 	
 	@GetMapping("/SignOut")
-	public User signOut(@RequestBody User user)	//NOSONAR
+	public ResponseEntity<User> signOut(User user)	//NOSONAR
 	{
 		
 		
-		return userService.signOut(user);
+		return new ResponseEntity<>(userService.signOut(user),HttpStatus.OK);
 	}
 	
 	
